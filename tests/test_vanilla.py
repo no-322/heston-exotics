@@ -10,6 +10,7 @@ from heston.bs import bs_call
 from heston.cf import cf
 from heston.params import HestonParams
 from heston.pricer import call
+from heston.fft_pricer import fft_price_at
 
 S0, r, T = 100.0, 0.03, 1.0
 PARAMS = HestonParams(v0=0.04, kappa=1.5, vbar=0.04, eta=0.5, rho=-0.7)
@@ -42,3 +43,12 @@ def test_degenerate_heston_matches_bs(K):
     heston = _call_or_skip(call, S0, K, r, T, p)
     bs = bs_call(S0, K, r, T, np.sqrt(vbar))
     assert np.isclose(heston, bs, atol=1e-4)
+
+
+def test_fft_matches_quad_pricer():
+    # Carr-Madan FFT + cubic spline in log-strike vs the quad pricer
+    p = PARAMS
+    Ks = [80, 90, 100, 110, 120]
+    C_fft = fft_price_at(np.array(Ks, dtype=float), 100, 0.03, 1.0, p)
+    for K, c in zip(Ks, C_fft):
+        assert abs(c - call(100, K, 0.03, 1.0, p)) < 1e-3

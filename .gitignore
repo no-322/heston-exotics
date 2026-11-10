@@ -27,3 +27,7 @@ htmlcov/
 .vscode/
 .idea/
 .DS_Store
+
+# Market data (Bloomberg, not redistributable)
+data/*.xlsx
+data/*.csv
