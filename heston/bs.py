@@ -15,22 +15,17 @@ def bs_call(S0: float, K: float, r: float, T: float, sigma: float, q: float = 0.
     return S0 * np.exp(-q * T) * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
 
 
-def bs_implied_vol(
-    price: float,
-    S0: float,
-    K: float,
-    r: float,
-    T: float,
-    q: float = 0.0,
-    lo: float = 1e-6,
-    hi: float = 5.0,
-) -> float:
-    """Implied vol of a European call. Returns nan if price is outside no-arbitrage bounds."""
+def implied_vol(price: float, S0: float, K: float, r: float, T: float, q: float = 0.0) -> float:
+    """Black-Scholes implied vol of a European call via brentq on [1e-4, 5.0].
+
+    Returns nan if the price is outside no-arbitrage bounds or the root isn't bracketed.
+    """
+    lo, hi = 1e-4, 5.0
     lower = max(S0 * np.exp(-q * T) - K * np.exp(-r * T), 0.0)
     upper = S0 * np.exp(-q * T)
     if not (lower < price < upper):
         return float("nan")
     f = lambda s: bs_call(S0, K, r, T, s, q) - price
-    if f(hi) < 0:
+    if f(lo) > 0 or f(hi) < 0:
         return float("nan")
     return brentq(f, lo, hi, xtol=1e-12, maxiter=200)

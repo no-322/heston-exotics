@@ -1,6 +1,6 @@
 """Sanity checks for the Heston characteristic function and vanilla pricer.
 
-Tests skip automatically while cf / call_price still raise NotImplementedError.
+Tests skip automatically while cf / call still raise NotImplementedError.
 """
 
 import numpy as np
@@ -9,7 +9,7 @@ import pytest
 from heston.bs import bs_call
 from heston.cf import cf
 from heston.params import HestonParams
-from heston.pricer import call_price
+from heston.pricer import call
 
 S0, r, T = 100.0, 0.03, 1.0
 PARAMS = HestonParams(v0=0.04, kappa=1.5, vbar=0.04, eta=0.5, rho=-0.7)
@@ -39,6 +39,6 @@ def test_degenerate_heston_matches_bs(K):
     # TODO: eta -> 0 and v0 = vbar  =>  constant variance vbar  =>  BS with sigma^2 = vbar
     vbar = 0.04
     p = HestonParams(v0=vbar, kappa=1.5, vbar=vbar, eta=1e-4, rho=0.0)
-    heston = _call_or_skip(call_price, S0, K, r, T, p)
+    heston = _call_or_skip(call, S0, K, r, T, p)
     bs = bs_call(S0, K, r, T, np.sqrt(vbar))
     assert np.isclose(heston, bs, atol=1e-4)

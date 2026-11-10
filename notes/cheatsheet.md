@@ -3,6 +3,7 @@
 ## Phase 1
 - In `cf.py` when $u = -i$ and $\rho\eta \ge \kappa$ we get $0/0$ in $g$ ($\beta + d = 0$). Stocks have -ve $\rho$ but on the off chance we get +ve $\rho$ this may cause an issue.
 - Since the characteristic function is $\mathbb{E}^*[e^{iu \ln S_T}]$, $u = 0$ just verifies that probability adds up to 1. $u = -i$ gives us the forward price.
+- Heston pricer with $\eta = 10^{-4}$ and $v_0 = \bar v$ gives a price lower than BS because $\eta$ isn't exactly 0 (the gap scales like $\eta^2$). The `quad` lower limit adds a little, the upper limit doesn't matter.
 
 ## Phase 2
 
