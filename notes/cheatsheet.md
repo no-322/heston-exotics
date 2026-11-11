@@ -21,6 +21,12 @@
 - Parity-implied $r$ is robust and consistent for longer $T$ and sits 25-35 bp above Bloomberg's $r$. This is because the regression is done on $C - P$: we can see this as selling one call-put portfolio to finance the other. The rate we get is the box spread financing rate, which is higher due to margins involved.
 - Despite getting the wrong $r$ regardless of maturity, $F$ is accurate and matches Bloomberg data. $r$ can move due to noise, but $F$ is the crossing point of $C - P$ from +ve to -ve, which is not very sensitive to the errors.
 
+- Calibration can be done on prices or implied vol. Prices tend to optimize more on long dated because price there is higher for ATM.
+- Vol optimizing puts higher weight on short $\tau$. This is what I am doing.
+- Since idk the $F$ used by Bloomberg, I used $F$ (inverted BS with `brentq`) to get implied vol. The fit based on RMSE is better.
+- Ran 20 iterations with different starting points and all of them settle at a given value. So we can say that we don't have local minima issues, but we still need to ensure that the parameters are well determined. $\kappa$ and $\eta$ are not observed directly. So I start with fixing $\kappa$ and running the optimization to see how $\eta$ fits.
+- $\kappa < 4$ performs worse, but post 4 it fits with RMSE varying by just 0.09. Since $\eta$ rises with $\kappa$, higher $\kappa$ has worse Feller condition.
+
 ## Phase 2
 
 ## Phase 3
