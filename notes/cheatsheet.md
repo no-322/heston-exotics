@@ -11,6 +11,16 @@
 - $\eta$ adds curvature.
 - Important!! Pts to be added on why I switched to cubic interpolation and the cleanup because of cubic interpolation.
 
+### Heston Calibration
+- We use OTM options for vol calibration: for $K < F$ we use puts and for $K > F$ we use calls. ITM options have time value and intrinsic value, while OTM options have only time value, so they're a better measure. With ITM it's harder to separate the noise in implied vol.
+
+**Q.** Why is VIX greater than ATM implied vol?
+
+**A.** Although both come from implied vol, ATM vol is from one option, while VIX is a combination of all the OTM calls and puts. VIX $-$ ATM implied vol is a measure of skew.
+
+- Parity-implied $r$ is robust and consistent for longer $T$ and sits 25-35 bp above Bloomberg's $r$. This is because the regression is done on $C - P$: we can see this as selling one call-put portfolio to finance the other. The rate we get is the box spread financing rate, which is higher due to margins involved.
+- Despite getting the wrong $r$ regardless of maturity, $F$ is accurate and matches Bloomberg data. $r$ can move due to noise, but $F$ is the crossing point of $C - P$ from +ve to -ve, which is not very sensitive to the errors.
+
 ## Phase 2
 
 ## Phase 3
