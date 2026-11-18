@@ -27,10 +27,10 @@
 - Ran 20 iterations with different starting points and all of them settle at a given value. So we can say that we don't have local minima issues, but we still need to ensure that the parameters are well determined. $\kappa$ and $\eta$ are not observed directly. So I start with fixing $\kappa$ and running the optimization to see how $\eta$ fits.
 - $\kappa < 4$ performs worse, but post 4 it fits with RMSE varying by just 0.09. Since $\eta$ rises with $\kappa$, higher $\kappa$ has worse Feller condition.
 
-- Noticed that Heston fits perfectly for $T = 1$ month. For further $T$'s, Heston skew is smaller than market implied. Possibly because of two factors:
+- Noticed that Heston fits almost perfectly for $T \approx 4$ months (2027-03-19). For further $T$'s, Heston skew is smaller than market implied. Possibly because of two factors:
   1. Error, as mentioned, is done on implied vol, so shorter period fits better.
   2. We also have more data for the same.
-- Up to 3 months, vol implied calculations seem to fall within bid-ask spread implied vol. The rest are way off.
+- For 4 and 6 months, vol implied calculations fit well (close to bid-ask spread implied vol). For 1 month the skew is too steep, which Heston can't fit well. The rest are way off.
 
 ## Forward Start Calls
 
