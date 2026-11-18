@@ -1,6 +1,6 @@
 # What Breaks
 
-## Phase 1
+
 - In `cf.py` when $u = -i$ and $\rho\eta \ge \kappa$ we get $0/0$ in $g$ ($\beta + d = 0$). Stocks have -ve $\rho$ but on the off chance we get +ve $\rho$ this may cause an issue.
 - Since the characteristic function is $\mathbb{E}^*[e^{iu \ln S_T}]$, $u = 0$ just verifies that probability adds up to 1. $u = -i$ gives us the forward price.
 - Heston pricer with $\eta = 10^{-4}$ and $v_0 = \bar v$ gives a price lower than BS because $\eta$ isn't exactly 0 (the gap scales like $\eta^2$). The `quad` lower limit adds a little, the upper limit doesn't matter.
@@ -27,12 +27,11 @@
 - Ran 20 iterations with different starting points and all of them settle at a given value. So we can say that we don't have local minima issues, but we still need to ensure that the parameters are well determined. $\kappa$ and $\eta$ are not observed directly. So I start with fixing $\kappa$ and running the optimization to see how $\eta$ fits.
 - $\kappa < 4$ performs worse, but post 4 it fits with RMSE varying by just 0.09. Since $\eta$ rises with $\kappa$, higher $\kappa$ has worse Feller condition.
 
-## Phase 2
+- Noticed that Heston fits perfectly for $T = 1$ month. For further $T$'s, Heston skew is smaller than market implied. Possibly because of two factors:
+  1. Error, as mentioned, is done on implied vol, so shorter period fits better.
+  2. We also have more data for the same.
+- Up to 3 months, vol implied calculations seem to fall within bid-ask spread implied vol. The rest are way off.
 
-## Phase 3
+## Forward Start Calls
 
-## Phase 4
-
-## Phase 5
-
-## Phase 6
+- It can be thought of as a call on returns cuz we can pull out $S_t$ from the payoff. By B-S, returns don't depend on $S_t$. But in market it will break because now we can't directly write it as exponential closed-form.
