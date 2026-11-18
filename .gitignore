@@ -31,3 +31,6 @@ htmlcov/
 # Market data (Bloomberg, not redistributable)
 data/*.xlsx
 data/*.csv
+
+# Claude Code instructions (local only)
+CLAUDE.md
